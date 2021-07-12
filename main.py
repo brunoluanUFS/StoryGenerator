@@ -31,8 +31,18 @@ def load_data(path, fname):
             tmp = line.strip().split("\t")
             post.append([p.split() for p in tmp])
 
+    indices = []
+    for item in post:
+      if len(item) < 4:
+        indices.append(post.index(item))
+
     with open('%s/%s.response' % (path, fname)) as f:
         response = [line.strip().split() for line in f.readlines()]
+
+    for i in indices:
+      post.pop(i)
+      response.pop(i)
+        
     data = []
     for p, r in zip(post, response):
         data.append({'post': p, 'response': r})

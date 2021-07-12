@@ -35,6 +35,7 @@ def load_data(path, fname):
     for item in post:
       if len(item) < 4:
         indices.append(post.index(item))
+        indices = sorted(indices,reverse=True)
 
     with open('%s/%s.response' % (path, fname)) as f:
         response = [line.strip().split() for line in f.readlines()]

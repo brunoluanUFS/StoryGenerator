@@ -89,7 +89,7 @@ def build_vocab(path, data):
 
     print("Loading word vectors...")
     vectors = {}    
-    with open(path + '/glove.6B.200d.txt', 'r') as f:
+    with open(path + '/glove_s50.txt', 'r') as f:
         for i, line in enumerate(f):
             if i % 100000 == 0:
                 print("    processing line %d" % i)

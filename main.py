@@ -77,7 +77,7 @@ def load_relation(path):
     return relation
 
 def build_vocab(path, data):
-    print("Creating vocabulary...")
+    print("Criando vocab...")
  
     relation_vocab_list = []
     relation_file = open(path + "/relations.txt", "r")
@@ -87,7 +87,7 @@ def build_vocab(path, data):
     vocab = {}
     for i, pair in enumerate(data):
         if i % 100000 == 0:
-            print("    processing line %d" % i)
+            print("    processando linha %d" % i)
         for token in [word for p in pair['post'] for word in p]+pair['response']:
             if token in vocab:
                 vocab[token] += 1
@@ -98,12 +98,12 @@ def build_vocab(path, data):
     if len(vocab_list) > FLAGS.symbols:
         vocab_list = vocab_list[:FLAGS.symbols]
 
-    print("Loading word vectors...")
+    print("Carregando Embeddings...")
     vectors = {}    
-    with open(path + '/glove_s50.txt', 'r') as f:
+    with open(path + '/glove_s100.txt', 'r') as f:
         for i, line in enumerate(f):
             if i % 100000 == 0:
-                print("    processing line %d" % i)
+                print("    processando linha %d" % i)
             s = line.strip()
             word = s[:s.find(' ')]
             vector = s[s.find(' ')+1:]
@@ -209,7 +209,7 @@ def gen_batched_data(data):
 def train(model, sess, dataset):
     st, ed, loss = 0, 0, []
     while ed < len(dataset):
-        print ("epoch %d, training %.4f %%...\r" % (epoch, float(ed) / len(dataset) * 100))
+        print ("epoch %d, treinando %.4f %%...\r" % (epoch, float(ed) / len(dataset) * 100))
         st, ed = ed, ed + FLAGS.batch_size if ed + FLAGS.batch_size < len(dataset) else len(dataset)
         batch_data = gen_batched_data(dataset[st:ed])
         outputs = model.step_decoder(sess, batch_data)
@@ -295,11 +295,11 @@ with tf.Session(config=config) as sess:
             model.print_parameters()
         
         if tf.train.get_checkpoint_state(FLAGS.train_dir):
-            print("Reading model parameters from %s" % FLAGS.train_dir)
+            print("Lendo parametros - %s" % FLAGS.train_dir)
             model.saver.restore(sess, tf.train.latest_checkpoint(FLAGS.train_dir))
             model.symbol2index.init.run()
         else:
-            print("Created model with fresh parameters.")
+            print("Modelo criado com novos parametros.")
             tf.global_variables_initializer().run()
             model.symbol2index.init.run()
         pre_losses = [1e18] * 3
@@ -338,7 +338,7 @@ with tf.Session(config=config) as sess:
         else:
             model_path = '%s/checkpoint-%08d' % (
                 FLAGS.train_dir, FLAGS.inference_version)
-        print 'restore from %s' % model_path
+        print 'recuperar de %s' % model_path
         model.saver.restore(sess, model_path)
         model.symbol2index.init.run()
 

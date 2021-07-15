@@ -10,7 +10,7 @@ from model import IEMSAModel, _START_VOCAB
 
 tf.app.flags.DEFINE_boolean("is_train", True, "Set to False to inference.")
 tf.app.flags.DEFINE_integer("symbols", 10000, "vocabulary size.")
-tf.app.flags.DEFINE_integer("embed_units", 50, "Size of word embedding.")
+tf.app.flags.DEFINE_integer("embed_units", 100, "Size of word embedding.")
 tf.app.flags.DEFINE_integer("units", 512, "Size of each model layer.")
 tf.app.flags.DEFINE_integer("layers", 2, "Number of layers in the model.")
 tf.app.flags.DEFINE_integer("batch_size", 128, "Batch size to use during training.")
